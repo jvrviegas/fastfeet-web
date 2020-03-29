@@ -12,8 +12,9 @@ export const MoreActions = styled.button`
 
 export const ActionsList = styled.aside`
   position: absolute;
-  width: 140px;
-  left: calc(50% - 65px);
+  min-width: 140px;
+  width: max-content;
+  left: calc(50% - (${(props) => (props.larger ? `${85}px` : `${65}px`)}));
   top: calc(100% + 8px);
   background: #fff;
   border-radius: 4px;
