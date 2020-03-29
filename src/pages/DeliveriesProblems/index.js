@@ -2,7 +2,7 @@ import React from 'react';
 
 import ActionsButton from '~/components/ActionsButton';
 
-const actions = ['Visualizar', 'Excluir encomenda'];
+const actions = ['Visualizar', 'Cancelar encomenda'];
 
 export default function DeliveriesProblems() {
   return (
