@@ -11,7 +11,7 @@ import {
 
 import { Container, ActionsList, MoreActions, Action } from './styles';
 
-export default function ActionsButton({ actions }) {
+export default function ActionsButton({ actions, larger }) {
   const [visible, setVisible] = useState(false);
 
   function handleToggleVisible() {
@@ -24,7 +24,7 @@ export default function ActionsButton({ actions }) {
         <MdMoreHoriz color="#C6C6C6" size={20} />
       </MoreActions>
 
-      <ActionsList visible={visible}>
+      <ActionsList visible={visible} larger={larger}>
         <div>
           {actions.map((action) =>
             action === 'Visualizar' ? (
@@ -52,4 +52,9 @@ export default function ActionsButton({ actions }) {
 
 ActionsButton.propTypes = {
   actions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  larger: PropTypes.bool,
+};
+
+ActionsButton.defaultProps = {
+  larger: false,
 };
