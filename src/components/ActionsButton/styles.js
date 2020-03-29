@@ -14,7 +14,7 @@ export const ActionsList = styled.aside`
   position: absolute;
   min-width: 140px;
   width: max-content;
-  left: calc(50% - (${(props) => (props.larger ? `${85}px` : `${65}px`)}));
+  left: calc(50% - (${(props) => (props.larger ? `${93}px` : `${65}px`)}));
   top: calc(100% + 8px);
   background: #fff;
   border-radius: 4px;
