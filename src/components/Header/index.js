@@ -15,16 +15,16 @@ export default function Header() {
       <Content>
         <nav>
           <img src={logo} alt="FastFeet" />
-          <NavLink to="/dashboard" activeClassName="active">
+          <NavLink to="/dashboard/orders" activeClassName="active">
             ENCOMENDAS
           </NavLink>
-          <NavLink to="/deliverymans" activeClassName="active">
+          <NavLink to="/dashboard/deliverymans" activeClassName="active">
             ENTREGADORES
           </NavLink>
-          <NavLink to="/recipients" activeClassName="active">
+          <NavLink to="/dashboard/recipients" activeClassName="active">
             DESTINATÁRIOS
           </NavLink>
-          <NavLink to="/deliveries-problems" activeClassName="active">
+          <NavLink to="/dashboard/deliveries-problems" activeClassName="active">
             PROBLEMAS
           </NavLink>
         </nav>
