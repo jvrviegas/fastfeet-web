@@ -5,7 +5,7 @@ import Header from '~/components/Header';
 
 import { Wrapper, Container } from './styles';
 
-export default function DefaultLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
     <Wrapper>
       <Header />
@@ -14,6 +14,6 @@ export default function DefaultLayout({ children }) {
   );
 }
 
-DefaultLayout.propTypes = {
+DashboardLayout.propTypes = {
   children: PropTypes.element.isRequired,
 };
