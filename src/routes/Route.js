@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
 import AuthLayout from '~/pages/_layouts/auth';
-import DefaultLayout from '~/pages/_layouts/default';
+import DashboardLayout from '~/pages/_layouts/dashboard';
 
 // import { store } from '~/store';
 
@@ -21,10 +21,10 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/dashboard/orders" />;
   }
 
-  const Layout = signed ? DefaultLayout : AuthLayout;
+  const Layout = signed ? DashboardLayout : AuthLayout;
 
   return (
     <Route
