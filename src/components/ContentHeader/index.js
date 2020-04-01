@@ -4,14 +4,20 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 
 import { SearchField } from './styles';
 
+import history from '~/services/history';
+
 export default function ContentHeader({ title = '' }) {
+  function handleCreate() {
+    return history.push('/dashboard/orders/create');
+  }
+
   return (
     <div>
       <SearchField>
         <MdSearch size={20} color="#999" />
         <input type="text" name="filter" placeholder={`Buscar por ${title}`} />
       </SearchField>
-      <button type="button">
+      <button type="button" onClick={handleCreate}>
         <MdAdd size={24} />
         Cadastrar
       </button>
