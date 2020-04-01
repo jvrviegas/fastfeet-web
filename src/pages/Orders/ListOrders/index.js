@@ -7,7 +7,7 @@ import { MiniProfile, Status, Badge } from './styles';
 
 const actions = ['Visualizar', 'Editar', 'Excluir'];
 
-export default function Dashboard() {
+export default function ListOrders() {
   return (
     <>
       <h2>Gerenciando encomendas</h2>
