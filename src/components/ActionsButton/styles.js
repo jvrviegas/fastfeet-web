@@ -16,7 +16,7 @@ export const ActionsList = styled.aside`
   width: max-content;
   left: calc(50% - (${(props) => (props.larger ? `${93}px` : `${65}px`)}));
   top: calc(100% + 8px);
-  background: #fff;
+  background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 4px;
   padding: 5px 10px;
   display: ${(props) => (props.visible ? 'flex' : 'none')};
@@ -26,13 +26,20 @@ export const ActionsList = styled.aside`
   &::before {
     content: '';
     position: absolute;
-    left: calc(50% - 8px);
-    top: -8px;
+    left: calc(50% + 3px);
+    top: 2px;
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 8px solid #eee;
+
+    box-sizing: border-box;
+
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+
+    border: 5px solid black;
+    border-color: transparent transparent #fff #fff;
+    box-shadow: -2px 2px 2px #0000001a;
+    opacity: 1;
   }
 
   div {
