@@ -9,11 +9,13 @@ import UpdateOrder from '~/pages/Orders/UpdateOrder';
 import Deliverymans from '~/pages/Deliverymans';
 import Recipients from '~/pages/Recipients';
 import DeliveriesProblems from '~/pages/DeliveriesProblems';
+import Profile from '~/pages/Profile';
 
 export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
+      <Route path="/dashboard/profile" isPrivate component={Profile} />
 
       <Route path="/dashboard/orders" exact isPrivate component={ListOrders} />
       <Route
