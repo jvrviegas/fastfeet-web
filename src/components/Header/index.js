@@ -1,14 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 // import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+
+import { signOut } from '~/store/modules/auth/actions';
 
 import logo from '~/assets/fastfeet-logo.png';
 import { Container, Content, Profile } from './styles';
 
 export default function Header() {
-  // const profile = useSelector((state) => state.user.profile);
+  const dispatch = useDispatch();
 
-  function handleSignOut() {}
+  function handleSignOut() {
+    dispatch(signOut());
+  }
 
   return (
     <Container>
