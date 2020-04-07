@@ -9,7 +9,7 @@ import history from '~/services/history';
 export default function ContentHeader({ title = '', page }) {
   function handleCreate() {
     if (page) {
-      return history.push(`/dashboard/${page}/create`);
+      return history.push(`/${page}/create`);
     }
 
     return history.push('/');
@@ -35,5 +35,5 @@ ContentHeader.propTypes = {
 };
 
 ContentHeader.defaultProps = {
-  page: 'test',
+  page: '',
 };

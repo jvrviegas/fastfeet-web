@@ -7,9 +7,9 @@ import { Container } from './styles';
 
 import history from '~/services/history';
 
-export default function FormHeader({ title = '' }) {
+export default function FormHeader({ title = '', page = '' }) {
   function handleReturn() {
-    history.push('/dashboard/orders');
+    history.push(`/${page}`);
   }
 
   return (
@@ -31,4 +31,5 @@ export default function FormHeader({ title = '' }) {
 
 FormHeader.propTypes = {
   title: PropTypes.string.isRequired,
+  page: PropTypes.string.isRequired,
 };
