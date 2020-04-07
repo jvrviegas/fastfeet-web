@@ -21,11 +21,20 @@ export const Container = styled.div`
       > div > input {
         width: 100%;
       }
+
+      > input {
+        height: 20px;
+      }
     }
 
     div.second-grid {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
+      margin-top: 10px;
+
+      > input {
+        height: 40px;
+      }
     }
 
     label {
@@ -41,7 +50,6 @@ export const Container = styled.div`
       display: block;
       border: 1px solid #eee;
       border-radius: 4px;
-      height: 40px;
       padding: 0 15px;
       color: #333;
       margin: 0 0 10px;
