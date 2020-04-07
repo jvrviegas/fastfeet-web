@@ -3,6 +3,7 @@ import { darken } from 'polished';
 
 export const Container = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 900px;
@@ -15,7 +16,6 @@ export const Container = styled.div`
     button {
       height: 36px;
       margin-left: 15px;
-      background: ${(props) => (props.return ? '#ccc' : '#7d40e7')};
 
       svg {
         margin-right: 5px;
