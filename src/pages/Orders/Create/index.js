@@ -1,12 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
-import AsyncSelect from 'react-select/async';
+import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
+import AsyncSelect from './AsyncSelect';
 
 import FormHeader from '~/components/FormHeader';
 import { Container } from './styles';
 
 import api from '~/services/api';
+
+const schema = Yup.object().shape({
+  recipient: Yup.object().required('O destinatário é obrigatório'),
+  deliveryman: Yup.object({
+    value: Yup.number(),
+    label: Yup.string(),
+  }).required('O entregador é obrigatório'),
+  product: Yup.string().required('O produto é obrigatório'),
+});
 
 export default function CreateOrder() {
   const [deliverymans, setDeliverymans] = useState([]);
@@ -69,29 +79,35 @@ export default function CreateOrder() {
       resolve(filterDeliverymans(inputValue));
     });
 
+  function handleSubmit({ recipient, deliveryman, product }) {
+    console.tron.log({ recipient, deliveryman, product });
+  }
+
   return (
     <>
-      <FormHeader title="Cadastro de encomendas" />
-
       <Container>
-        <Form>
+        <Form schema={schema} onSubmit={handleSubmit}>
+          <FormHeader title="Cadastro de encomendas" />
+
           <div className="first-grid">
             <div className="input-left">
-              <label htmlFor="email">Destinatário</label>
+              <label htmlFor="recipient">Destinatário</label>
               <AsyncSelect
+                name="recipient"
                 cacheOptions
                 loadOptions={recipientOptions}
-                defaultOptions
+                defaultOptions={recipients}
                 placeholder="Selecione..."
               />
             </div>
 
             <div className="input-right">
-              <label htmlFor="email">Entregador</label>
+              <label htmlFor="deliveryman">Entregador</label>
               <AsyncSelect
+                name="deliveryman"
                 cacheOptions
                 loadOptions={deliverymanOptions}
-                defaultOptions
+                defaultOptions={deliverymans}
                 placeholder="Selecione..."
               />
             </div>
