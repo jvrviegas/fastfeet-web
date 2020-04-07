@@ -9,7 +9,7 @@ export default function Deliverymans() {
   return (
     <>
       <h2>Gerenciando entregadores</h2>
-      <ContentHeader title="entregadores" />
+      <ContentHeader title="entregadores" page="deliverymans" />
 
       <table>
         <thead>
