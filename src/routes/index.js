@@ -3,9 +3,9 @@ import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
-import ListOrders from '~/pages/Orders/ListOrders';
-import CreateOrder from '~/pages/Orders/CreateOrder';
-import UpdateOrder from '~/pages/Orders/UpdateOrder';
+import ListOrders from '~/pages/Orders/List';
+import CreateOrder from '~/pages/Orders/Create';
+import UpdateOrder from '~/pages/Orders/Update';
 import Deliverymans from '~/pages/Deliverymans';
 import Recipients from '~/pages/Recipients';
 import DeliveriesProblems from '~/pages/DeliveriesProblems';
