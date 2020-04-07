@@ -1,9 +1,29 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { darken } from 'polished';
 
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
 export const Wrapper = styled.div`
-  height: 100%;
+  min-height: 100%;
   background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+
+  div.loading {
+    margin: 10% auto;
+
+    svg {
+      animation: ${rotate} 2s linear infinite;
+      margin: 0 auto;
+    }
+  }
 `;
 
 export const Container = styled.div`
