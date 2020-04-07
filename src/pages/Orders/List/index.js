@@ -11,7 +11,7 @@ export default function ListOrders() {
   return (
     <>
       <h2>Gerenciando encomendas</h2>
-      <ContentHeader title="encomendas" />
+      <ContentHeader title="encomendas" page="orders" />
 
       <table>
         <thead>
