@@ -6,9 +6,13 @@ import { SearchField } from './styles';
 
 import history from '~/services/history';
 
-export default function ContentHeader({ title = '' }) {
+export default function ContentHeader({ title = '', page }) {
   function handleCreate() {
-    return history.push('/dashboard/orders/create');
+    if (page) {
+      return history.push(`/dashboard/${page}/create`);
+    }
+
+    return history.push('/');
   }
 
   return (
@@ -27,4 +31,9 @@ export default function ContentHeader({ title = '' }) {
 
 ContentHeader.propTypes = {
   title: PropTypes.string.isRequired,
+  page: PropTypes.string,
+};
+
+ContentHeader.defaultProps = {
+  page: 'test',
 };
