@@ -10,11 +10,12 @@ const actions = ['Editar', 'Excluir'];
 
 export default function Deliverymans() {
   const [deliverymans, setDeliverymans] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadDeliverymans() {
       setLoading(true);
+
       const response = await api.get(`/deliverymans`, {
         params: {
           name: '',
@@ -58,18 +59,24 @@ export default function Deliverymans() {
       <h2>Gerenciando entregadores</h2>
       <ContentHeader title="entregadores" page="deliverymans" />
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Foto</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th style={{ textAlign: 'center' }}>Ações</th>
-          </tr>
-        </thead>
-        <tbody>{renderTableData()}</tbody>
-      </table>
+      {loading ? (
+        <div className="loading">
+          <FaSpinner size={30} />
+        </div>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th style={{ textAlign: 'center' }}>Ações</th>
+            </tr>
+          </thead>
+          <tbody>{renderTableData()}</tbody>
+        </table>
+      )}
     </>
   );
 }
