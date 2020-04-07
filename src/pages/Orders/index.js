@@ -38,7 +38,6 @@ export default function ListOrders() {
 
   function renderTableData() {
     return orders.map((order) => {
-      console.tron.log(order);
       return (
         <tr>
           <td>#{order.id}</td>

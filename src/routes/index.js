@@ -3,9 +3,8 @@ import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
-import ListOrders from '~/pages/Orders/List';
-import CreateOrder from '~/pages/Orders/Create';
-import UpdateOrder from '~/pages/Orders/Update';
+import Orders from '~/pages/Orders';
+import OrdersForm from '~/pages/OrdersForm';
 import Deliverymans from '~/pages/Deliverymans';
 import Recipients from '~/pages/Recipients';
 import DeliveriesProblems from '~/pages/DeliveriesProblems';
@@ -15,28 +14,16 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
-      <Route path="/dashboard/profile" isPrivate component={Profile} />
+      <Route path="/profile" isPrivate component={Profile} />
 
-      <Route path="/dashboard/orders" exact isPrivate component={ListOrders} />
-      <Route
-        path="/dashboard/orders/create"
-        isPrivate
-        component={CreateOrder}
-      />
-      <Route
-        path="/dashboard/orders/update"
-        isPrivate
-        component={UpdateOrder}
-      />
+      <Route path="/orders" exact isPrivate component={Orders} />
+      <Route path="/orders/create" isPrivate component={OrdersForm} />
+      {/* <Route path="/orders/update" isPrivate component={OrdersForm} /> */}
 
+      <Route path="/deliverymans" isPrivate component={Deliverymans} />
+      <Route path="/recipients" isPrivate component={Recipients} />
       <Route
-        path="/dashboard/deliverymans"
-        isPrivate
-        component={Deliverymans}
-      />
-      <Route path="/dashboard/recipients" isPrivate component={Recipients} />
-      <Route
-        path="/dashboard/deliveries-problems"
+        path="/deliveries-problems"
         isPrivate
         component={DeliveriesProblems}
       />

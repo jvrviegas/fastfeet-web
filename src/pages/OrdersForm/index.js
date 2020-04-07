@@ -5,12 +5,15 @@ import { Form, Input } from '@rocketseat/unform';
 import AsyncSelect from './AsyncSelect';
 
 import FormHeader from '~/components/FormHeader';
-import { Container } from './styles';
+import { Container, Content } from './styles';
 
 import api from '~/services/api';
 
 const schema = Yup.object().shape({
-  recipient: Yup.object().required('O destinatário é obrigatório'),
+  recipient: Yup.object({
+    value: Yup.number(),
+    label: Yup.string(),
+  }).required('O destinatário é obrigatório'),
   deliveryman: Yup.object({
     value: Yup.number(),
     label: Yup.string(),
@@ -84,11 +87,11 @@ export default function CreateOrder() {
   }
 
   return (
-    <>
-      <Container>
-        <Form schema={schema} onSubmit={handleSubmit}>
-          <FormHeader title="Cadastro de encomendas" />
+    <Container>
+      <Form schema={schema} onSubmit={handleSubmit}>
+        <FormHeader title="Cadastro de encomendas" />
 
+        <Content>
           <div className="first-grid">
             <div className="input-left">
               <label htmlFor="recipient">Destinatário</label>
@@ -117,8 +120,8 @@ export default function CreateOrder() {
             <label htmlFor="email">Nome do produto</label>
             <Input name="product" placeholder="Yamaha SX7" />
           </div>
-        </Form>
-      </Container>
-    </>
+        </Content>
+      </Form>
+    </Container>
   );
 }
