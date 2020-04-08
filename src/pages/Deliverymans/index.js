@@ -32,14 +32,14 @@ export default function Deliverymans() {
   function renderTableData() {
     return deliverymans.map((deliveryman) => {
       return (
-        <tr>
+        <tr key={deliveryman.id}>
           <td>#0{deliveryman.id}</td>
           <td>
             <img
               src={
                 deliveryman.avatar
                   ? deliveryman.avatar.url
-                  : 'https://ui-avatars.com/api/?name=John+Doe&background=F4EFFC&color=A28FD0'
+                  : `https://ui-avatars.com/api/?name=${deliveryman.name}&background=F4EFFC&color=A28FD0`
               }
               alt=""
             />
