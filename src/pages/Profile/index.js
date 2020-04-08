@@ -16,8 +16,6 @@ export default function Profile() {
     dispatch(updateProfileRequest(data));
   }
 
-  console.tron.log(profile);
-
   return (
     <Container>
       <h2>Atualizar perfil</h2>
