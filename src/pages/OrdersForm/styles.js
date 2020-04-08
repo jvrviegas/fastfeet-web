@@ -37,26 +37,4 @@ export const Content = styled.div`
       height: 40px;
     }
   }
-
-  label {
-    text-align: left;
-    display: block;
-    font-weight: bold;
-    margin: 5px 0 10px;
-    font-size: 13px;
-    color: #333;
-  }
-
-  input {
-    display: block;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 0 15px;
-    color: #333;
-    margin: 0 0 10px;
-
-    &::placeholder {
-      color: #999;
-    }
-  }
 `;
