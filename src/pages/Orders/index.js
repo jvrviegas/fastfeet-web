@@ -39,7 +39,7 @@ export default function ListOrders() {
   function renderTableData() {
     return orders.map((order) => {
       return (
-        <tr>
+        <tr key={order.id}>
           <td>#{order.id}</td>
           <td>{order.recipient.name}</td>
           <td>
@@ -48,7 +48,7 @@ export default function ListOrders() {
                 src={
                   order.deliveryman.avatar
                     ? order.deliveryman.avatar.url
-                    : 'https://ui-avatars.com/api/?name=John+Doe&background=F4EFFC&color=A28FD0'
+                    : `https://ui-avatars.com/api/?name=${order.deliveryman.name}&background=F4EFFC&color=A28FD0`
                 }
                 alt=""
               />{' '}
