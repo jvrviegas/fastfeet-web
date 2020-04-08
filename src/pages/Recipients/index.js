@@ -33,7 +33,7 @@ export default function Recipients() {
     if (recipients.length > 0) {
       return recipients.map((recipient) => {
         return (
-          <tr>
+          <tr key={recipient.id}>
             <td>#{recipient.id}</td>
             <td>{recipient.name}</td>
             <td>
