@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -9,13 +10,48 @@ import {
   MdDeleteForever,
 } from 'react-icons/md';
 
+import history from '~/services/history';
+
+import ViewModal from '../ViewModal';
+
 import { Container, ActionsList, MoreActions, Action } from './styles';
 
-export default function ActionsButton({ actions, larger }) {
+export default function ActionsButton({
+  actions,
+  larger,
+  page,
+  data,
+  callback,
+}) {
   const [visible, setVisible] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   function handleToggleVisible() {
     setVisible(!visible);
+  }
+
+  function handleAction(action) {
+    if (action === 'Visualizar' && data) {
+      setOpenModal(true);
+    }
+
+    if (action === 'Editar' && data) {
+      history.push({
+        pathname: `/${page}/create`,
+        state: data,
+      });
+    }
+
+    if (action === 'Excluir' || action === 'Cancelar encomenda') {
+      const confirm = window.confirm(
+        `Deseja realmente ${action.toLowerCase()}?`
+      );
+      if (confirm) {
+        callback();
+      }
+    }
+
+    return null;
   }
 
   return (
@@ -28,17 +64,17 @@ export default function ActionsButton({ actions, larger }) {
         <div>
           {actions.map((action) =>
             action === 'Visualizar' ? (
-              <Action>
+              <Action onClick={() => handleAction(action)}>
                 <MdVisibility size={16} color="#8E5BE8" />
                 <span>{action}</span>
               </Action>
             ) : action === 'Editar' ? (
-              <Action>
+              <Action onClick={() => handleAction(action)}>
                 <MdCreate size={16} color="#4D85EE" />
                 <span>{action}</span>
               </Action>
             ) : (
-              <Action>
+              <Action onClick={() => handleAction(action)}>
                 <MdDeleteForever size={16} color="#DE3B3B" />
                 <span>{action}</span>
               </Action>
@@ -46,13 +82,26 @@ export default function ActionsButton({ actions, larger }) {
           )}
         </div>
       </ActionsList>
+
+      <ViewModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        page={page}
+        data={data}
+      />
     </Container>
   );
 }
 
 ActionsButton.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   actions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  page: PropTypes.string.isRequired,
   larger: PropTypes.bool,
+  data: PropTypes.objectOf(PropTypes.string).isRequired,
+  callback: PropTypes.func.isRequired,
 };
 
 ActionsButton.defaultProps = {
