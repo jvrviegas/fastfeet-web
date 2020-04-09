@@ -114,4 +114,29 @@ export const Container = styled.div`
       }
     }
   }
+
+  div.search-field {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+
+    input {
+      height: 100%;
+      border: 0;
+      margin-left: 10px;
+    }
+  }
+
+  div.empty-list {
+    margin: 50px auto;
+    color: #333;
+
+    > span {
+      font-size: 18px;
+    }
+  }
 `;
