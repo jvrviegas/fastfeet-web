@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
@@ -21,25 +22,40 @@ const schema = Yup.object().shape({
 });
 
 export default function DeliverymansForm({ history }) {
+  const location = useLocation();
+
+  const deliveryman = location.state && location.state;
+  console.tron.log(deliveryman);
+
   async function handleSubmit({ name, email, avatar_id }) {
     try {
-      await api.post('/deliverymans', {
-        name,
-        email,
-        avatar_id,
-      });
+      if (deliveryman) {
+        await api.put(`/deliverymans/${deliveryman.id}`, {
+          name,
+          email,
+          avatar_id,
+        });
 
-      toast.success('Entregador criado com sucesso');
+        toast.success('Entregador atualizado com sucesso');
+      } else {
+        await api.post('/deliverymans', {
+          name,
+          email,
+          avatar_id,
+        });
+
+        toast.success('Entregador criado com sucesso');
+      }
 
       history.push('/deliverymans');
     } catch (err) {
-      toast.error('Erro ao criar entregador, verifique os dados');
+      toast.error('Falha ao processar, por favor verifique os dados');
     }
   }
 
   return (
     <Container>
-      <Form schema={schema} onSubmit={handleSubmit}>
+      <Form schema={schema} initialData={deliveryman} onSubmit={handleSubmit}>
         <FormHeader title="Cadastro de entregadores" page="deliverymans" />
 
         <Content>
