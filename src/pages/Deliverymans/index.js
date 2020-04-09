@@ -1,69 +1,71 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { FaSpinner } from 'react-icons/fa';
+import { MdSearch, MdAdd } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import ActionsButton from '~/components/ActionsButton';
-import ContentHeader from '~/components/ContentHeader';
 
 import api from '~/services/api';
 
 const actions = ['Editar', 'Excluir'];
 
-export default function Deliverymans() {
+export default function Deliverymans({ history }) {
   const [deliverymans, setDeliverymans] = useState([]);
+  const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadDeliverymans() {
-      setLoading(true);
+  const loadDeliverymans = useCallback(async () => {
+    setLoading(true);
 
-      const response = await api.get(`/deliverymans`, {
-        params: {
-          name: '',
-        },
-      });
-
-      setDeliverymans(response.data);
-      setLoading(false);
-    }
-
-    loadDeliverymans();
-  }, []);
-
-  function renderTableData() {
-    return deliverymans.map((deliveryman) => {
-      return (
-        <tr key={deliveryman.id}>
-          <td>#0{deliveryman.id}</td>
-          <td>
-            <img
-              src={
-                deliveryman.avatar
-                  ? deliveryman.avatar.url
-                  : `https://ui-avatars.com/api/?name=${deliveryman.name}&background=F4EFFC&color=A28FD0`
-              }
-              alt=""
-            />
-          </td>
-          <td>{deliveryman.name}</td>
-          <td>{deliveryman.email}</td>
-          <td style={{ textAlign: 'center' }}>
-            <ActionsButton actions={actions} />
-          </td>
-        </tr>
-      );
+    const response = await api.get(`/deliverymans`, {
+      params: {
+        filter,
+      },
     });
+
+    setDeliverymans(response.data);
+    setLoading(false);
+  }, [filter]);
+
+  useEffect(() => {
+    loadDeliverymans();
+  }, [loadDeliverymans]);
+
+  async function handleDelete(id) {
+    await api.delete(`/deliverymans/${id}`);
+    toast.success('Entregador excluído com sucesso!');
+    loadDeliverymans();
   }
 
   return (
     <>
       <h2>Gerenciando entregadores</h2>
-      <ContentHeader title="entregadores" page="deliverymans" />
+      <div>
+        <div className="search-field">
+          <MdSearch size={20} color="#999" />
+          <input
+            type="text"
+            name="filter"
+            placeholder="Buscar por entregador"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => history.push('/deliverymans/create')}
+        >
+          <MdAdd size={24} />
+          Cadastrar
+        </button>
+      </div>
 
       {loading ? (
         <div className="loading">
           <FaSpinner size={30} />
         </div>
-      ) : (
+      ) : deliverymans.length > 0 ? (
         <table>
           <thead>
             <tr>
@@ -74,9 +76,47 @@ export default function Deliverymans() {
               <th style={{ textAlign: 'center' }}>Ações</th>
             </tr>
           </thead>
-          <tbody>{renderTableData()}</tbody>
+          <tbody>
+            {deliverymans.map((deliveryman) => (
+              <tr key={deliveryman.id}>
+                <td>
+                  #{deliveryman.id < 10 ? `0${deliveryman.id}` : deliveryman.id}
+                </td>
+                <td>
+                  <img
+                    src={
+                      deliveryman.avatar
+                        ? deliveryman.avatar.url
+                        : `https://ui-avatars.com/api/?name=${deliveryman.name}&background=F4EFFC&color=A28FD0`
+                    }
+                    alt=""
+                  />
+                </td>
+                <td>{deliveryman.name}</td>
+                <td>{deliveryman.email}</td>
+                <td style={{ textAlign: 'center' }}>
+                  <ActionsButton
+                    actions={actions}
+                    page="deliverymans"
+                    data={deliveryman}
+                    callback={() => handleDelete(deliveryman.id)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
+      ) : (
+        <div className="empty-list">
+          <span>Nenhum resultado encontrado.</span>
+        </div>
       )}
     </>
   );
 }
+
+Deliverymans.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
