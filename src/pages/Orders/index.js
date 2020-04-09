@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { FaSpinner } from 'react-icons/fa';
+import { MdSearch, MdAdd } from 'react-icons/md';
+import { toast } from 'react-toastify';
+
 import ActionsButton from '~/components/ActionsButton';
-import ContentHeader from '~/components/ContentHeader';
 
 import { MiniProfile, Status, Badge } from './styles';
 
@@ -10,77 +14,63 @@ import orderStatus from '~/utils/orderStatus';
 
 const actions = ['Visualizar', 'Editar', 'Excluir'];
 
-export default function ListOrders() {
+export default function Orders({ history }) {
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function loadOrders() {
-      setLoading(true);
+  const loadOrders = useCallback(async () => {
+    setLoading(true);
 
-      const response = await api.get(`/orders`, {
-        params: {
-          name: '',
-        },
-      });
-
-      const data = response.data.map((order) => ({
-        ...order,
-        status: orderStatus(order),
-      }));
-
-      setOrders(data);
-      setLoading(false);
-    }
-
-    loadOrders();
-  }, []);
-
-  function renderTableData() {
-    return orders.map((order) => {
-      return (
-        <tr key={order.id}>
-          <td>#{order.id}</td>
-          <td>{order.recipient.name}</td>
-          <td>
-            <MiniProfile>
-              <img
-                src={
-                  order.deliveryman.avatar
-                    ? order.deliveryman.avatar.url
-                    : `https://ui-avatars.com/api/?name=${order.deliveryman.name}&background=F4EFFC&color=A28FD0`
-                }
-                alt=""
-              />{' '}
-              {order.deliveryman.name}
-            </MiniProfile>
-          </td>
-          <td>{order.recipient.town}</td>
-          <td>{order.recipient.state}</td>
-          <td>
-            <Status status={order.status.id}>
-              <Badge status={order.status.id} />
-              <span>{order.status.name}</span>
-            </Status>
-          </td>
-          <td style={{ textAlign: 'center' }}>
-            <ActionsButton actions={actions} />
-          </td>
-        </tr>
-      );
+    const response = await api.get(`/orders`, {
+      params: {
+        filter,
+      },
     });
+
+    const data = response.data.map((order) => ({
+      ...order,
+      status: orderStatus(order),
+    }));
+
+    setOrders(data);
+    setLoading(false);
+  }, [filter]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
+
+  async function handleDelete(id) {
+    await api.delete(`/orders/${id}`);
+    toast.success('Encomenda excluída com sucesso!');
   }
 
   return (
     <>
       <h2>Gerenciando encomendas</h2>
-      <ContentHeader title="encomendas" page="orders" />
+
+      <div>
+        <div className="search-field">
+          <MdSearch size={20} color="#999" />
+          <input
+            type="text"
+            name="filter"
+            placeholder="Buscar por encomendas"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </div>
+        <button type="button" onClick={() => history.push('/orders/create')}>
+          <MdAdd size={24} />
+          Cadastrar
+        </button>
+      </div>
 
       {loading ? (
         <div className="loading">
           <FaSpinner size={30} />
         </div>
-      ) : (
+      ) : orders.length > 0 ? (
         <table>
           <thead>
             <tr>
@@ -93,9 +83,55 @@ export default function ListOrders() {
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>{renderTableData()}</tbody>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.id}>
+                <td>#{order.id < 10 ? `0${order.id}` : order.id}</td>
+                <td>{order.recipient.name}</td>
+                <td>
+                  <MiniProfile>
+                    <img
+                      src={
+                        order.deliveryman.avatar
+                          ? order.deliveryman.avatar.url
+                          : `https://ui-avatars.com/api/?name=${order.deliveryman.name}&background=F4EFFC&color=A28FD0`
+                      }
+                      alt=""
+                    />{' '}
+                    {order.deliveryman.name}
+                  </MiniProfile>
+                </td>
+                <td>{order.recipient.town}</td>
+                <td>{order.recipient.state}</td>
+                <td>
+                  <Status status={order.status.id}>
+                    <Badge status={order.status.id} />
+                    <span>{order.status.name}</span>
+                  </Status>
+                </td>
+                <td style={{ textAlign: 'center' }}>
+                  <ActionsButton
+                    actions={actions}
+                    page="orders"
+                    data={order}
+                    callback={() => handleDelete(order.id)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
+      ) : (
+        <div className="empty-list">
+          <span>Nenhum resultado encontrado.</span>
+        </div>
       )}
     </>
   );
 }
+
+Orders.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
