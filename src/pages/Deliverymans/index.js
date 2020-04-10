@@ -29,7 +29,7 @@ export default function Deliverymans({ history }) {
       },
     });
 
-    if (response.data.length < 5) setLimit(true);
+    setLimit(response.data.length < 5);
 
     setDeliverymans(response.data);
     setLoading(false);
