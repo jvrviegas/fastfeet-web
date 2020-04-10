@@ -31,7 +31,12 @@ export default function OrdersForm({ history }) {
   const location = useLocation();
   const order = location.state && location.state;
 
-  console.tron.log(order);
+  const [currentRecipient, setCurrentRecipient] = useState(
+    order && order.recipient.name
+  );
+  const [currentDeliveryman, setCurrentDeliveryman] = useState(
+    order && order.deliveryman.name
+  );
 
   useEffect(() => {
     async function loadRecipients() {
@@ -110,10 +115,21 @@ export default function OrdersForm({ history }) {
     }
   }
 
+  const handleRecipientChange = (value) => {
+    setCurrentRecipient(value);
+  };
+
+  const handleDeliverymanChange = (value) => {
+    setCurrentDeliveryman(value);
+  };
+
   return (
     <Container>
       <Form schema={schema} initialData={order} onSubmit={handleSubmit}>
-        <FormHeader title="Cadastro de encomendas" />
+        <FormHeader
+          title={`${order ? 'Edição ' : 'Cadastro '}de encomendas`}
+          page="orders"
+        />
 
         <Content>
           <div className="first-grid">
@@ -122,6 +138,8 @@ export default function OrdersForm({ history }) {
               <AsyncSelect
                 name="recipient"
                 cacheOptions
+                inputValue={currentRecipient}
+                onInputChange={handleRecipientChange}
                 loadOptions={recipientOptions}
                 defaultOptions={recipients}
                 placeholder="Selecione..."
@@ -133,6 +151,8 @@ export default function OrdersForm({ history }) {
               <AsyncSelect
                 name="deliveryman"
                 cacheOptions
+                inputValue={currentDeliveryman}
+                onInputChange={handleDeliverymanChange}
                 loadOptions={deliverymanOptions}
                 defaultOptions={deliverymans}
                 placeholder="Selecione..."
