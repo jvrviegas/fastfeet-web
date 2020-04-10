@@ -49,7 +49,10 @@ export default function RecipientsForm({ history }) {
   return (
     <Container>
       <Form schema={schema} initialData={recipient} onSubmit={handleSubmit}>
-        <FormHeader title="Cadastro de encomendas" page="recipients" />
+        <FormHeader
+          title={`${recipient ? 'Edição ' : 'Cadastro '}de destinatários`}
+          page="recipients"
+        />
 
         <Content>
           <div className="first-grid">
