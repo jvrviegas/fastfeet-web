@@ -56,7 +56,10 @@ export default function DeliverymansForm({ history }) {
   return (
     <Container>
       <Form schema={schema} initialData={deliveryman} onSubmit={handleSubmit}>
-        <FormHeader title="Cadastro de entregadores" page="deliverymans" />
+        <FormHeader
+          title={`${deliveryman ? 'Edição ' : 'Cadastro '}de entregadores`}
+          page="deliverymans"
+        />
 
         <Content>
           <div>
