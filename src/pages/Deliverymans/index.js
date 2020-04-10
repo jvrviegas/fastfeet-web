@@ -16,7 +16,8 @@ export default function Deliverymans({ history }) {
   const [deliverymans, setDeliverymans] = useState([]);
   const [filter, setFilter] = useState('');
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [limit, setLimit] = useState(false);
 
   const loadDeliverymans = useCallback(async () => {
     setLoading(true);
@@ -27,6 +28,8 @@ export default function Deliverymans({ history }) {
         page,
       },
     });
+
+    if (response.data.length < 5) setLimit(true);
 
     setDeliverymans(response.data);
     setLoading(false);
@@ -43,15 +46,17 @@ export default function Deliverymans({ history }) {
   }
 
   function previousPage() {
-    if (page > 0) {
+    if (page > 1) {
       const newPage = page - 1;
       setPage(newPage);
     }
   }
 
   function nextPage() {
-    const newPage = page + 1;
-    setPage(newPage);
+    if (!limit) {
+      const newPage = page + 1;
+      setPage(newPage);
+    }
   }
 
   return (
