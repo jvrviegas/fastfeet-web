@@ -92,7 +92,7 @@ export default function TransitionsModal({
                 ) : (
                   <p className={classes.text}>
                     <span>
-                      <b>Cancelamento:</b>{' '}
+                      <b>Cancelada:</b>{' '}
                       {data.canceled_at && canceledDateFormatted}
                     </span>
                   </p>
