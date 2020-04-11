@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   position: fixed;
@@ -20,6 +21,16 @@ export const Container = styled.div`
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;
+
+    &[disabled] {
+      background: #666;
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+
+    &[disabled]:hover {
+      background: ${darken(0.05, '#666')};
+    }
   }
 
   span {
