@@ -15,8 +15,8 @@ const actions = ['Editar', 'Excluir'];
 export default function Deliverymans({ history }) {
   const [deliverymans, setDeliverymans] = useState([]);
   const [filter, setFilter] = useState('');
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(false);
 
   const loadDeliverymans = useCallback(async () => {
@@ -29,7 +29,7 @@ export default function Deliverymans({ history }) {
       },
     });
 
-    setLimit(response.data.length < 5);
+    setLimit(response.data.length < 20);
 
     setDeliverymans(response.data);
     setLoading(false);
@@ -136,7 +136,12 @@ export default function Deliverymans({ history }) {
           <span>Nenhum resultado encontrado.</span>
         </div>
       )}
-      <Pagination page={page} previous={previousPage} next={nextPage} />
+      <Pagination
+        page={page}
+        limit={limit}
+        previous={previousPage}
+        next={nextPage}
+      />
     </>
   );
 }
