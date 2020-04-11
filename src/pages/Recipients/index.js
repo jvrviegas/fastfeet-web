@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 
 import ActionsButton from '~/components/ActionsButton';
+import Pagination from '~/components/Pagination';
 
 const actions = ['Editar', 'Excluir'];
 
@@ -15,6 +16,8 @@ export default function Recipients({ history }) {
   const [recipients, setRecipients] = useState([]);
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(false);
 
   const loadRecipients = useCallback(async () => {
     setLoading(true);
@@ -24,6 +27,8 @@ export default function Recipients({ history }) {
         filter,
       },
     });
+
+    setLimit(response.data.length < 20);
 
     setRecipients(response.data);
     setLoading(false);
@@ -37,6 +42,20 @@ export default function Recipients({ history }) {
     await api.delete(`/recipients/${id}`);
     toast.success('Destinatário excluído com sucesso!');
     loadRecipients();
+  }
+
+  function previousPage() {
+    if (page > 1) {
+      const newPage = page - 1;
+      setPage(newPage);
+    }
+  }
+
+  function nextPage() {
+    if (!limit) {
+      const newPage = page + 1;
+      setPage(newPage);
+    }
   }
 
   return (
@@ -102,6 +121,13 @@ export default function Recipients({ history }) {
           <span>Nenhum resultado encontrado.</span>
         </div>
       )}
+
+      <Pagination
+        page={page}
+        limit={limit}
+        previous={previousPage}
+        next={nextPage}
+      />
     </>
   );
 }
