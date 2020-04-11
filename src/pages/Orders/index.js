@@ -6,6 +6,7 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import ActionsButton from '~/components/ActionsButton';
+import Pagination from '~/components/Pagination';
 
 import { MiniProfile, Status, Badge } from './styles';
 
@@ -18,6 +19,8 @@ export default function Orders({ history }) {
   const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(false);
 
   const loadOrders = useCallback(async () => {
     setLoading(true);
@@ -25,8 +28,11 @@ export default function Orders({ history }) {
     const response = await api.get(`/orders`, {
       params: {
         filter,
+        page,
       },
     });
+
+    setLimit(response.data.length < 20);
 
     const data = response.data.map((order) => ({
       ...order,
@@ -35,7 +41,7 @@ export default function Orders({ history }) {
 
     setOrders(data);
     setLoading(false);
-  }, [filter]);
+  }, [filter, page]);
 
   useEffect(() => {
     loadOrders();
@@ -44,6 +50,20 @@ export default function Orders({ history }) {
   async function handleDelete(id) {
     await api.delete(`/orders/${id}`);
     toast.success('Encomenda excluída com sucesso!');
+  }
+
+  function previousPage() {
+    if (page > 1) {
+      const newPage = page - 1;
+      setPage(newPage);
+    }
+  }
+
+  function nextPage() {
+    if (!limit) {
+      const newPage = page + 1;
+      setPage(newPage);
+    }
   }
 
   return (
@@ -126,6 +146,12 @@ export default function Orders({ history }) {
           <span>Nenhum resultado encontrado.</span>
         </div>
       )}
+      <Pagination
+        page={page}
+        limit={limit}
+        previous={previousPage}
+        next={nextPage}
+      />
     </>
   );
 }
