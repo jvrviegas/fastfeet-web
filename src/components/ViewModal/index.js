@@ -24,15 +24,18 @@ export default function TransitionsModal({
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const startDateFormatted = data.start_date
-    ? format(utcToZonedTime(data.start_date, timezone), 'dd/MM/yyyy HH:mm')
+    ? format(utcToZonedTime(data.start_date, timezone), "dd/MM/yyyy 'às' HH:mm")
     : null;
 
   const endDateFormatted = data.end_date
-    ? format(utcToZonedTime(data.end_date, timezone), 'dd/MM/yyyy HH:mm')
+    ? format(utcToZonedTime(data.end_date, timezone), "dd/MM/yyyy 'às' HH:mm")
     : null;
 
   const canceledDateFormatted = data.canceled_at
-    ? format(utcToZonedTime(data.canceled_at, timezone), 'dd/MM/yyyy HH:mm')
+    ? format(
+        utcToZonedTime(data.canceled_at, timezone),
+        "dd/MM/yyyy 'às' HH:mm"
+      )
     : null;
 
   useEffect(() => {
