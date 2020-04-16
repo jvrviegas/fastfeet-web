@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
+import LoadingSpinner from '~/components/LoadingSpinner';
 import AsyncSelect from './AsyncSelect';
 
 import FormHeader from '~/components/FormHeader';
@@ -27,6 +29,7 @@ const schema = Yup.object().shape({
 export default function OrdersForm({ history }) {
   const [deliverymans, setDeliverymans] = useState([]);
   const [recipients, setRecipients] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
   const order = location.state && location.state;
@@ -91,6 +94,7 @@ export default function OrdersForm({ history }) {
 
   async function handleSubmit({ recipient, deliveryman, product }) {
     try {
+      setLoading(true);
       if (order) {
         await api.put(`/orders/${order.id}`, {
           recipient_id: recipient.value,
@@ -98,6 +102,7 @@ export default function OrdersForm({ history }) {
           product,
         });
 
+        setLoading(false);
         toast.success('Encomenda atualizada com sucesso');
       } else {
         await api.post('/orders', {
@@ -106,12 +111,14 @@ export default function OrdersForm({ history }) {
           product,
         });
 
+        setLoading(false);
         toast.success('Encomenda criada com sucesso');
       }
 
       history.push('/orders');
     } catch (err) {
       toast.error('Falha ao processar, por favor verifique os dados');
+      setLoading(false);
     }
   }
 
@@ -125,47 +132,51 @@ export default function OrdersForm({ history }) {
 
   return (
     <Container>
-      <Form schema={schema} initialData={order} onSubmit={handleSubmit}>
-        <FormHeader
-          title={`${order ? 'Edição ' : 'Cadastro '}de encomendas`}
-          page="orders"
-        />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Form schema={schema} initialData={order} onSubmit={handleSubmit}>
+          <FormHeader
+            title={`${order ? 'Edição ' : 'Cadastro '}de encomendas`}
+            page="orders"
+          />
 
-        <Content>
-          <div className="first-grid">
-            <div className="input-left">
-              <label htmlFor="recipient">Destinatário</label>
-              <AsyncSelect
-                name="recipient"
-                cacheOptions
-                inputValue={currentRecipient}
-                onInputChange={handleRecipientChange}
-                loadOptions={recipientOptions}
-                defaultOptions={recipients}
-                placeholder="Selecione..."
-              />
+          <Content>
+            <div className="first-grid">
+              <div className="input-left">
+                <label htmlFor="recipient">Destinatário</label>
+                <AsyncSelect
+                  name="recipient"
+                  cacheOptions
+                  inputValue={currentRecipient}
+                  onInputChange={handleRecipientChange}
+                  loadOptions={recipientOptions}
+                  defaultOptions={recipients}
+                  placeholder="Selecione..."
+                />
+              </div>
+
+              <div className="input-right">
+                <label htmlFor="deliveryman">Entregador</label>
+                <AsyncSelect
+                  name="deliveryman"
+                  cacheOptions
+                  inputValue={currentDeliveryman}
+                  onInputChange={handleDeliverymanChange}
+                  loadOptions={deliverymanOptions}
+                  defaultOptions={deliverymans}
+                  placeholder="Selecione..."
+                />
+              </div>
             </div>
 
-            <div className="input-right">
-              <label htmlFor="deliveryman">Entregador</label>
-              <AsyncSelect
-                name="deliveryman"
-                cacheOptions
-                inputValue={currentDeliveryman}
-                onInputChange={handleDeliverymanChange}
-                loadOptions={deliverymanOptions}
-                defaultOptions={deliverymans}
-                placeholder="Selecione..."
-              />
+            <div className="second-grid">
+              <label htmlFor="email">Nome do produto</label>
+              <Input name="product" placeholder="Yamaha SX7" />
             </div>
-          </div>
-
-          <div className="second-grid">
-            <label htmlFor="email">Nome do produto</label>
-            <Input name="product" placeholder="Yamaha SX7" />
-          </div>
-        </Content>
-      </Form>
+          </Content>
+        </Form>
+      )}
     </Container>
   );
 }

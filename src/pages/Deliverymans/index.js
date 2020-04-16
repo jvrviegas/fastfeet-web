@@ -1,12 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { FaSpinner } from 'react-icons/fa';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import { toast } from 'react-toastify';
 
 import ActionsButton from '~/components/ActionsButton';
 import Pagination from '~/components/Pagination';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 import api from '~/services/api';
 
@@ -82,9 +82,7 @@ export default function Deliverymans({ history }) {
       </div>
 
       {loading ? (
-        <div className="loading">
-          <FaSpinner size={30} />
-        </div>
+        <LoadingSpinner />
       ) : deliverymans.length > 0 ? (
         <>
           <table>

@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 import api from '~/services/api';
 
 import ActionsButton from '~/components/ActionsButton';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 const actions = ['Visualizar', 'Cancelar encomenda'];
 
@@ -37,9 +37,7 @@ export default function DeliveriesProblems() {
       <h2>Problemas na entrega</h2>
 
       {loading ? (
-        <div className="loading">
-          <FaSpinner size={30} />
-        </div>
+        <LoadingSpinner />
       ) : deliveriesProblems.length > 0 ? (
         <table>
           <thead>

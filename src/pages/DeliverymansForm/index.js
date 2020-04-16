@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -10,6 +10,7 @@ import api from '~/services/api';
 
 import FormHeader from '~/components/FormHeader';
 import AvatarInput from './AvatarInput';
+import LoadingSpinner from '~/components/LoadingSpinner';
 
 import { Container, Content } from './styles';
 
@@ -23,12 +24,13 @@ const schema = Yup.object().shape({
 
 export default function DeliverymansForm({ history }) {
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
 
   const deliveryman = location.state && location.state;
-  console.tron.log(deliveryman);
 
   async function handleSubmit({ name, email, avatar_id }) {
     try {
+      setLoading(true);
       if (deliveryman) {
         await api.put(`/deliverymans/${deliveryman.id}`, {
           name,
@@ -36,6 +38,7 @@ export default function DeliverymansForm({ history }) {
           avatar_id,
         });
 
+        setLoading(false);
         toast.success('Entregador atualizado com sucesso');
       } else {
         await api.post('/deliverymans', {
@@ -44,39 +47,45 @@ export default function DeliverymansForm({ history }) {
           avatar_id,
         });
 
+        setLoading(false);
         toast.success('Entregador criado com sucesso');
       }
 
       history.push('/deliverymans');
     } catch (err) {
       toast.error('Falha ao processar, por favor verifique os dados');
+      setLoading(false);
     }
   }
 
   return (
     <Container>
-      <Form schema={schema} initialData={deliveryman} onSubmit={handleSubmit}>
-        <FormHeader
-          title={`${deliveryman ? 'Edição ' : 'Cadastro '}de entregadores`}
-          page="deliverymans"
-        />
-
-        <Content>
-          <div>
-            <AvatarInput name="avatar_id" />
-          </div>
-
-          <label>Nome</label>
-          <Input name="name" placeholder="John Doe" />
-
-          <label>Email</label>
-          <Input
-            name="email"
-            type="email"
-            placeholder="example@rocketseat.com"
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <Form schema={schema} initialData={deliveryman} onSubmit={handleSubmit}>
+          <FormHeader
+            title={`${deliveryman ? 'Edição ' : 'Cadastro '}de entregadores`}
+            page="deliverymans"
           />
-        </Content>
-      </Form>
+
+          <Content>
+            <div>
+              <AvatarInput name="avatar_id" />
+            </div>
+
+            <label>Nome</label>
+            <Input name="name" placeholder="John Doe" />
+
+            <label>Email</label>
+            <Input
+              name="email"
+              type="email"
+              placeholder="example@rocketseat.com"
+            />
+          </Content>
+        </Form>
+      )}
     </Container>
   );
 }
