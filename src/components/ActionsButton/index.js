@@ -28,6 +28,7 @@ export default function ActionsButton({
 
   function handleToggleVisible() {
     setVisible(!visible);
+    console.tron.log(data);
   }
 
   function handleAction(action) {
