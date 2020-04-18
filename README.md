@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  Desafio 09: Aplicativo web para gestão das encomendas por parte doa transportadora.
+  Desafio 09: Aplicativo web para gestão das encomendas por parte da transportadora.
 </h3>
 
 ## :rocket: Sobre o desafio
