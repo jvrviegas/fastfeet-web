@@ -52,9 +52,9 @@ export default function DeliveriesProblems() {
               <tr>
                 <td>
                   #
-                  {deliveryProblem.id < 10
-                    ? `0${deliveryProblem.id}`
-                    : deliveryProblem.id}
+                  {deliveryProblem.delivery_id < 10
+                    ? `0${deliveryProblem.delivery_id}`
+                    : deliveryProblem.delivery_id}
                 </td>
                 <td>{deliveryProblem.description}</td>
                 <td style={{ textAlign: 'center' }}>
