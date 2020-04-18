@@ -29,7 +29,7 @@ A versão web do projeto FastFeet representa a visão da distribuidora, ou seja,
 
 ## :hammer: Principais Ferramentas
 
-- ⚛️ **React JS** - Uma biblioteca para criar mobile Apps
+- ⚛️ **React JS** - Biblioteca para criar aplicações web
 - ⚛️ **Styled Components** - Biblioteca pra estilizar componentes
 - ⚛️ **Redux** - Biblioteca para gerenciamento do estado da aplicação
 - 📄 **Axios** - Biblioteca para fazer requisições http
