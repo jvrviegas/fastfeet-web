@@ -35,10 +35,9 @@ A versão web do projeto FastFeet representa a visão da distribuidora, ou seja,
 - 📄 **Axios** - Biblioteca para fazer requisições http
 - 📄 **ESLint** - Biblioteca para análise de código estática para identificar e reportar padrões no código Javascript
 
-## :camera: Demonstração
+## :computer: Demonstração
 <h1 align="center">
-  <img alt="Demonstração" src=""
+  <img alt="Demonstração" src="https://github.com/jvrviegas/fastfeet-web/blob/master/.github/Demo-Frontend-Web.gif"
  />
 </h1>
-
 
