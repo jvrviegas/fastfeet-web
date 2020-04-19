@@ -50,6 +50,7 @@ export default function Orders({ history }) {
   async function handleDelete(id) {
     await api.delete(`/orders/${id}`);
     toast.success('Encomenda excluída com sucesso!');
+    loadOrders();
   }
 
   function previousPage() {
