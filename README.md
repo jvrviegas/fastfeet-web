@@ -33,7 +33,7 @@ A versão web do projeto FastFeet representa a visão da distribuidora, ou seja,
 - ⚛️ **Styled Components** - Biblioteca pra estilizar componentes
 - ⚛️ **Redux** - Biblioteca para gerenciamento do estado da aplicação
 - 📄 **Axios** - Biblioteca para fazer requisições http
-- 📄 **ESLint** - Biblioteca para procurar e resolver problemas no codigo
+- 📄 **ESLint** - Biblioteca para análise de código estática para identificar e reportar padrões no código Javascript
 
 ## :camera: Demonstração
 <h1 align="center">
