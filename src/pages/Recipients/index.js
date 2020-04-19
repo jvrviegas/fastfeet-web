@@ -25,6 +25,7 @@ export default function Recipients({ history }) {
     const response = await api.get(`/recipients`, {
       params: {
         filter,
+        page,
       },
     });
 
@@ -32,7 +33,7 @@ export default function Recipients({ history }) {
 
     setRecipients(response.data);
     setLoading(false);
-  }, [filter]);
+  }, [filter, page]);
 
   useEffect(() => {
     loadRecipients();
